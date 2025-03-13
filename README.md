@@ -30,6 +30,7 @@ Experiments are performed for different image denoising tasks including syntheti
 <p align="center">
   <img width="800" src="figs/exp_data.jpg">
 </p>
+
 ## Citation
 If you use Prompt-SID, please consider citing:
 
