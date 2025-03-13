@@ -25,9 +25,11 @@
 Experiments are performed for different image denoising tasks including synthetic denoising, real-world denoising and fluorescence imaging denoising. 
 
 <p align="center">
-  <img width="800" src="figs/contrast.png">
+  <img width="800" src="figs/exp.jpg">
 </p>
-
+<p align="center">
+  <img width="800" src="figs/exp_data.jpg">
+</p>
 ## Citation
 If you use Prompt-SID, please consider citing:
 
