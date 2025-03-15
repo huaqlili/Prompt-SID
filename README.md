@@ -3,7 +3,7 @@
 [Paper](https://arxiv.org/abs/2502.06432)
 #### News
 - **Jan, 18, 2025:** Our project is received as **Poster** by AAAI2025!  
-
+- **Mar, 15, 2025:** We have released the training and testing code for synthetic denoising and real-world denoising! 
 <hr />
 
 
@@ -16,10 +16,32 @@
 
 ---
 ## Installation
-  pytorch=1.11.0
-  torchaudio=0.11.0
-  torchvision=0.12.0
-  numpy=1.21.5
+
+    pytorch=1.11.0
+    torchaudio=0.11.0
+    torchvision=0.12.0
+    numpy=1.21.5
+
+Please see [pip.sh](pip.sh) for more installation of dependencies required to run Prompt-SID.
+
+## Running
+For training synthetic denoising, run the following command:
+
+    sh train_rgb.sh
+
+You can add different types and intensities of noise by modifying line 201 of file [unit8_model.py](PromptSID/models/unit8_model.py).
+
+For testing synthetic denoising, run the following command:
+
+    sh test.sh
+
+For training real-world denoising, run the following command:
+
+    sh train_sidd.sh
+
+For testing real-world denoising, run the following command to generate the data format required for website submission:
+
+    python test_sidd_benchmark.py
 
 ## Results
 Experiments are performed for different image denoising tasks including synthetic denoising, real-world denoising and fluorescence imaging denoising. 
