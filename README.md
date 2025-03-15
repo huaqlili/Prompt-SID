@@ -63,4 +63,5 @@ If you use Prompt-SID, please consider citing:
       year={2025}
     }
 
+Our code is built upon [Neighbor2neighbor](https://github.com/TaoHuang2018/Neighbor2Neighbor) and [DiffIR](https://github.com/Zj-BinXia/DiffIR). We sincerely thank them for their contributions.
 
