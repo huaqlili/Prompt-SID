@@ -1,0 +1,1 @@
+CUDA_DEVICE_ORDER=PCI_BUS_ID CUDA_VISIBLE_DEVICES=3 python3 -m torch.distributed.launch --nproc_per_node=1 --master_port=4393 PromptSID/train.py -opt options/train_siddraw.yml --launcher pytorch

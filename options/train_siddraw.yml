@@ -1,0 +1,136 @@
+# general settings
+name: real_world_sidd
+model_type: SIDDModel
+scale: 1
+num_gpu: auto
+manual_seed: 0
+
+# dataset and data loader settings
+datasets:
+  train:
+    name: TrainSet
+    type: SIDDMediumRaw
+    dataroot: /data/lhq23/datasets/SIDD_Medium_Raw_noisy_sub512/train
+    geometric_augs: true
+
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+
+    num_worker_per_gpu: 12
+    batch_size_per_gpu: 2
+    mini_batch_sizes: [8,4,2,2,1]             # Batch size per gpu   
+    iters: [82000,140000,73000,65000,40000]
+    gt_size: 512   # Max patch size for progressive training
+    gt_sizes: [192,256,320,448,512]  # Patch sizes for progressive training.
+
+    # data loader
+    use_shuffle: true
+    dataset_enlarge_ratio: 1
+    prefetch_mode: ~
+  
+  val_1:
+    name: SIDD
+    type: SIDDvalDataset
+    dataroot_gt: /data/jt/datasets/SIDD
+    dataroot_lq: /data/jt/datasets/SIDD
+    io_backend:
+      type: disk
+
+# network structures
+network_g:
+  type: attendiffneighbor
+  n_encoder_res: 4
+  inp_channels: 4
+  out_channels: 4
+  dim: 48
+  num_blocks: [6,8]
+  heads: [4,8]
+  num_refinement_blocks: 4
+  bias: False
+  LayerNorm_type: WithBias
+  ffn_expansion_factor: 2
+  n_feats: 96
+  n_denoise_res: 1
+  linear_start: 0.1
+  linear_end: 0.99
+  timesteps: 4
+
+# path
+path:
+  pretrain_network_g: ~
+  pretrain_network_S1: ~
+  param_key_g: params_ema
+  strict_load_g: False
+  resume_state: ~
+  ignore_resume_networks: network_S1
+
+# training settings
+train:
+  ema_decay: 0.999
+
+  optim_g:
+    type: Adam
+    lr: !!float 2e-4
+    weight_decay: 0
+    betas: [0.9, 0.99]
+
+  scheduler:
+    type: MultiStepLR
+    milestones: [300000]
+    gamma: 0.5
+
+  encoder_iter: 0
+  subimage_iter: 400000
+  total_iter: 400000
+  lr_encoder: !!float 2e-4
+  lr_sr: !!float 2e-4
+  gamma_encoder: 0.1
+  gamma_sr: 0.5
+  lr_decay_encoder: 60000
+  lr_decay_sr: 80000
+  warmup_iter: -1  # no warm up
+
+  mixing_augs:
+    mixup: false
+    mixup_beta: 1.2
+    use_identity: true
+
+  # losses
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 2.0
+    reduction: mean
+
+  kd_opt:
+    type: KDLoss
+    loss_weight: 1
+    temperature: 0.15
+
+# Uncomment these for validation
+# validation settings
+val:
+  window_size: 8
+  val_freq: !!float 1e4
+  save_img: False
+
+  metrics:
+    psnr: # metric name
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false
+
+# logging settings
+logger:
+  print_freq: 1000
+  save_checkpoint_freq: !!float 1e4
+  use_tb_logger: true
+  wandb:
+    project: ~
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500

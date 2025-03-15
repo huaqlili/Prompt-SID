@@ -1,0 +1,56 @@
+# GENERATE TIME: Wed Dec 13 11:49:37 2023
+# CMD:
+# DiffIR/train.py --local_rank=0 -opt options/train_DiffIRS2.yml --launcher pytorch
+
+# general settings
+name: sidd_feachannel_384
+model_type: DiffIRS2Model
+scale: 1
+num_gpu: auto  # auto: can infer from your visible devices automatically. official: 4 GPUs
+manual_seed: 0
+
+datasets:
+  val_1:
+    name: SIDD
+    type: SIDDvalDataset
+    dataroot_gt: /data/jt/datasets/SIDD
+    dataroot_lq: /data/jt/datasets/SIDD
+    io_backend:
+      type: disk
+
+# network structures
+network_g:
+  type: MAT
+  inp_channels: 4
+  out_channels: 4
+  dim: 48
+  num_blocks: [6,8]
+  num_refinement_blocks: 4
+  heads: [4,8]
+  ffn_expansion_factor: 2
+  bias: False
+  LayerNorm_type: 'WithBias'
+# path
+path:
+  # use the pre-trained Real-ESRNet model
+  pretrain_network_g: experiments/ablation_MAT_SIDD_512/models/net_g_latest.pth
+  pretrain_network_S1: ~
+  param_key_g: params_ema
+  strict_load_g: False
+  ignore_resume_networks: network_S1
+
+val:
+  save_img: False
+  suffix: ~  # add suffix to saved images, if None, use exp name
+
+  metrics:
+    psnr: # metric name
+      type: calculate_psnr_sidd
+      crop_border: 0
+      test_y_channel: False
+
+    ssim:
+      type: calculate_ssim
+      crop_border: 0
+      test_y_channel: False
+
