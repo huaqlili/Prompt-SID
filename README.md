@@ -1,6 +1,8 @@
-# Prompt-SID: Learning Structural Representation Prompt via Latent Diffusion for Single-Image (AAAI2025)
+# Prompt-SID: Learning Structural Representation Prompt via Latent Diffusion for Single-Image Denoising (AAAI 2025)
 
-[Paper](https://arxiv.org/abs/2502.06432)
+[Paper](https://arxiv.org/abs/2502.06432) | [AAAI Proceedings](https://ojs.aaai.org/index.php/AAAI/article/view/32500)
+
+Official implementation of Prompt-SID, a self-supervised single-image denoising method that learns a structural representation through latent diffusion. Here, **prompt** means a latent structural representation extracted from the noisy image, not a natural-language prompt.
 #### News
 - **Jan, 18, 2025:** Our project is received as **Poster** by AAAI2025!  
 - **Mar, 15, 2025:** We have released the training and testing code for synthetic denoising and real-world denoising! 
@@ -27,7 +29,7 @@ Please see [pip.sh](pip.sh) for more installation of dependencies required to ru
 ## Running
 For training synthetic denoising, run the following command:
 
-    sh train_rgb.sh
+    sh trains_rgb.sh
 
 You can add different types and intensities of noise by modifying line 201 of file [unit8_model.py](PromptSID/models/unit8_model.py).
 
@@ -46,6 +48,8 @@ For testing real-world denoising, run the following command to generate the data
 ## Results
 Experiments are performed for different image denoising tasks including synthetic denoising, real-world denoising and fluorescence imaging denoising. 
 
+On the SIDD validation and benchmark sets, Prompt-SID improves PSNR over Neighbor2Neighbor by 0.55 dB and 0.49 dB, respectively, and over Blind2Unblind by 0.23 dB and 0.19 dB. It also generalizes to fluorescence imaging denoising; see the paper for the full protocol, comparisons, and ablations.
+
 <p align="center">
   <img width="800" src="figs/exp.jpg">
 </p>
@@ -56,12 +60,15 @@ Experiments are performed for different image denoising tasks including syntheti
 ## Citation
 If you use Prompt-SID, please consider citing:
 
-    @article{li2025prompt,
-      title={Prompt-SID: Learning Structural Representation Prompt via Latent Diffusion for Single-Image},
-      author={Huaqiu Li and Wang Zhang and Xiaowan Hu and Tao Jiang and Zikang Chen and Haoqian Wang},
-      journal={AAAI},
-      year={2025}
+    @article{li2025promptsid,
+      title={Prompt-SID: Learning Structural Representation Prompt via Latent Diffusion for Single-Image Denoising},
+      author={Li, Huaqiu and Zhang, Wang and Hu, Xiaowan and Jiang, Tao and Chen, Zikang and Wang, Haoqian},
+      journal={Proceedings of the AAAI Conference on Artificial Intelligence},
+      volume={39},
+      number={5},
+      pages={4734--4742},
+      year={2025},
+      doi={10.1609/aaai.v39i5.32500}
     }
 
 Our code is built upon [Neighbor2neighbor](https://github.com/TaoHuang2018/Neighbor2Neighbor) and [DiffIR](https://github.com/Zj-BinXia/DiffIR). We sincerely thank them for their contributions.
-
